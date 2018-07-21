@@ -30,14 +30,19 @@ ASCII_OP_DICT = {
 	"X": QUIT
 }
 
+def _get_ch_drop_zero():
+	c = msvcrt.getch()
+	while c == b'\x00':
+		c = msvcrt.getch()
+	return c
 
 def get_input_op():
 	x = msvcrt.kbhit()
 	if x:
 		try:
-			inpraw = msvcrt.getch()
+			inpraw = _get_ch_drop_zero()
 			if inpraw == b'\xe0':
-				arrow = msvcrt.getch()
+				arrow = _get_ch_drop_zero()
 				op = ARROWOP[arrow]
 			elif inpraw.decode() == chr(27):
 				op = CANCEL
